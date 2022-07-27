@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { connect } from "react-redux";
+import { decrementarContador, incrementarContador } from "./actions/contador";
+import "./App.css";
+import Somador from "./components/somador";
 
-function App() {
+function App({ contador, incrementar, decrementar }) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="App">Contador: {contador}</div>
+      <button onClick={incrementar}>Incrementar</button>
+      <button onClick={decrementar}>Decrementar</button>
+
+      <div className="Somador">
+        <Somador />
+      </div>
+    </>
   );
 }
 
-export default App;
+const mapStateToProps = ({ contadorReducer }) => {
+  return {
+    contador: contadorReducer.contador,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  incrementar: () => dispatch(incrementarContador()),
+  decrementar: () => dispatch(decrementarContador()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
